@@ -11,6 +11,7 @@ public class Cell{
         return alive;
     }
 
+
     public void setAlive(boolean alive) {
         this.alive = alive;
     }

@@ -1,6 +1,5 @@
 package com.example.gameoflifeepam.model;
 
-import java.util.Random;
 
 public class Grid {
     private int sizeY;
@@ -8,12 +7,9 @@ public class Grid {
     private Cell[][] cells;
 
     public Grid(int sizeX, int sizeY) {
-
         cells = new Cell[sizeY][sizeX];
         this.sizeY = sizeY;
         this.sizeX = sizeX;
-
-
     }
 
     public int getSizeY() {
@@ -42,18 +38,26 @@ public class Grid {
 
     public int checkNeighborsOfCell(int x, int y) {
         int neighbors = 0;
-        if (y > 0)
-            if (cells[y - 1][x].isAlive()) neighbors++;
-        if (y < sizeY)
-            if (cells[y + 1][x].isAlive()) neighbors++;
-        if (x > 0)
-            if (cells[y][x - 1].isAlive()) neighbors++;
-        if (x < sizeX)
-            if (cells[y][x + 1].isAlive()) neighbors++;
-
-
+        if (y > 0) {
+            if (cells[y - 1][x].isAlive()) {
+                neighbors++;
+            }
+        }
+        if (y < sizeY-1) {
+            if (cells[y + 1][x].isAlive()) {
+                neighbors++;
+            }
+        }
+        if (x > 0) {
+            if (cells[y][x - 1].isAlive()) {
+                neighbors++;
+            }
+        }
+        if (x < sizeX-1) {
+            if (cells[y][x + 1].isAlive()) {
+                neighbors++;
+            }
+        }
         return neighbors;
     }
-
-
 }

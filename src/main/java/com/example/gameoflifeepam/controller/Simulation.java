@@ -15,7 +15,7 @@ public class Simulation {
         this.epochs = epochs;
     }
 
-    public void fillGridByRandom(){
+    public void fillGridByRandom() {
         Random random = new Random();
         for (int y = 0; y < grid.getSizeY(); y++) {
             for (int x = 0; x < grid.getSizeX(); x++) {
@@ -29,24 +29,30 @@ public class Simulation {
     }
 
     public Grid showNextEpoch() {
-        if(epochNumber == 0) {
+        if (epochNumber == 0) {
             epochNumber++;
             return grid;
-        }
-        else if (epochNumber < epochs) {
+        } else if (epochNumber < epochs) {
             epochNumber++;
             simulateEpoch();
             return grid;
+        } else {
+            return grid;
         }
-        else return grid;
     }
-
 
     private void simulateEpoch() {
-        // TODO: logic of simulating one epoch
-
+        for (int y = 0; y < grid.getSizeY(); y++) {
+            for (int x = 0; x < grid.getSizeX(); x++) {
+                int neighbors = grid.checkNeighborsOfCell(x, y);
+                if (neighbors < 2) {
+                    grid.getCells()[y][x].setAlive(false);
+                } else if (neighbors > 4) {
+                    grid.getCells()[y][x].setAlive(false);
+                } else if (neighbors == 3) {
+                    grid.getCells()[y][x].setAlive(true);
+                }
+            }
+        }
     }
-
-
-
 }

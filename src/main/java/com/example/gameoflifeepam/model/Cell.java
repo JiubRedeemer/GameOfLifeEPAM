@@ -1,6 +1,7 @@
 package com.example.gameoflifeepam.model;
 
 public class Cell{
+
     private boolean alive;
 
     public Cell(boolean alive) {
@@ -10,7 +11,6 @@ public class Cell{
     public boolean isAlive() {
         return alive;
     }
-
 
     public void setAlive(boolean alive) {
         this.alive = alive;

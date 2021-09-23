@@ -3,7 +3,7 @@ package com.example.gameoflifeepam.view;
 import com.example.gameoflifeepam.controller.Simulation;
 import com.example.gameoflifeepam.model.Grid;
 
-public class MainViewConsole implements Drawable{
+public class MainViewConsole implements MainView {
     private Simulation simulation;
 
     public MainViewConsole(Simulation simulation) {
@@ -21,8 +21,6 @@ public class MainViewConsole implements Drawable{
             }
             System.out.println();
         }
-        System.out.println(grid.checkNeighborsOfCell(0,0));
-
     }
 }
 

@@ -1,5 +1,6 @@
 package com.example.gameoflifeepam.view;
 
-public interface Drawable {
+public interface MainView {
+
     void showNext();
 }

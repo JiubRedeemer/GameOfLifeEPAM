@@ -9,9 +9,9 @@ public class SimulationController implements Runnable {
     private int maxEpochs, currentEpoch;
 
     Grid grid;
-    Killer killer;
-    Creator creator;
-    Viewer viewer;
+//    Killer killer;
+//    Creator creator;
+//    Viewer viewer;
 
     Thread killerThread;
     Thread creatorThread;
@@ -20,12 +20,12 @@ public class SimulationController implements Runnable {
     public SimulationController(Grid grid, int epochs) {
         this.grid = grid;
         this.maxEpochs = epochs;
-        killer = new Killer(grid);
-        creator = new Creator(grid);
-        viewer = new Viewer(grid, epochs);
-        killerThread = new Thread(killer);
-        creatorThread = new Thread(creator);
-        viewerThread = new Thread(viewer);
+//        killer = new Killer(grid);
+//        creator = new Creator(grid);
+//        viewer = new Viewer(grid, epochs);
+        killerThread = new Thread(new Killer(this.grid, epochs));
+        creatorThread = new Thread(new Creator(this.grid, epochs));
+        viewerThread = new Thread(new Viewer(this.grid, epochs));
     }
 
     @Override
@@ -38,17 +38,15 @@ public class SimulationController implements Runnable {
             fillGridByRandom();
         }
 
-        while (currentEpoch < maxEpochs) {
-            currentEpoch++;
+        creatorThread.setPriority(9);
+        killerThread.setPriority(8);
+        viewerThread.setPriority(7);
 
-            killerThread.setPriority(1);
-            creatorThread.setPriority(2);
-            viewerThread.setPriority(3);
+        creatorThread.start();
+        killerThread.start();
+        viewerThread.start();
 
-            killerThread.start();
-            creatorThread.start();
-            viewerThread.start();
-        }
+
     }
 
     public void fillGridByRandom() {

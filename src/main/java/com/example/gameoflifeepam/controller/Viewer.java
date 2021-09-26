@@ -26,11 +26,11 @@ public class Viewer implements Runnable {
     private void showEpochs() {
         for (int i = 0; i < epochs; i++) {
             mainView.showNext(grid);
-            try {
-                Thread.sleep(TIME_OF_FRAME);
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
+//            try {
+//                Thread.sleep(TIME_OF_FRAME);
+//            } catch (InterruptedException e) {
+//                e.printStackTrace();
+//            }
 
         }
     }

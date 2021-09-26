@@ -13,6 +13,7 @@ public class MainViewConsole implements MainView {
             }
             System.out.println();
         }
+        System.out.println("------------------------");
     }
 }
 

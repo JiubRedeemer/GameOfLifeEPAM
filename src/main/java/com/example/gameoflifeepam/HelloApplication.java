@@ -1,9 +1,7 @@
 package com.example.gameoflifeepam;
 
-import com.example.gameoflifeepam.controller.Simulation;
+import com.example.gameoflifeepam.controller.SimulationController;
 import com.example.gameoflifeepam.model.Grid;
-import com.example.gameoflifeepam.view.MainView;
-import com.example.gameoflifeepam.view.MainViewConsole;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -15,13 +13,9 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-        MainView mainView = new MainViewConsole(new Simulation(new Grid(10,5),5));
-        mainView.showNext();
-        System.out.println("---------------");
-        mainView.showNext();
-        System.out.println("---------------");
-        mainView.showNext();
-
+        SimulationController simulationController = new SimulationController(new Grid(10,5), 5);
+        Thread simulationControllerThread = new Thread(simulationController);
+        simulationControllerThread.start();
 
 
 

@@ -15,17 +15,20 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) throws IOException {
 
-      //  SimulationController simulationController = new SimulationController(new Grid(10,5), 5, new MainViewConsole());
-       // simulationController.run();
+
 
 
         JavaFXview javaFXview = new JavaFXview();
+        //SimulationController simulationController = new SimulationController(new Grid(10,10), 1, 1000, javaFXview );
         FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
         Scene scene = new Scene(javaFXview, 320, 240);
         stage.setScene(scene);
         stage.show();
 
-        javaFXview.draw();
+        //simulationController.run();
+        javaFXview.showNext();
+
+
     }
 
     public static void main(String[] args) {

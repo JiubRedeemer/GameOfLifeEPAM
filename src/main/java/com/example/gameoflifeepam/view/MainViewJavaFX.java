@@ -4,7 +4,12 @@ import com.example.gameoflifeepam.model.Grid;
 
 public class MainViewJavaFX implements MainView {
     @Override
-    public void showNext(Grid grid) {
+    public void updateGrid(Grid grid) {
+
+    }
+
+    @Override
+    public void showNext() {
 
     }
 

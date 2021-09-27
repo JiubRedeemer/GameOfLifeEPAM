@@ -12,11 +12,13 @@ public class SimulationController {
     private final Grid grid;
     private final int epochs;
     private final MainView mainView;
+    private int timeOfFrame;
 
-    public SimulationController(Grid grid, int epochs, MainView mainView) {
+    public SimulationController(Grid grid, int epochs, int timeOfFrame, MainView mainView) {
         this.grid = grid;
         this.epochs = epochs;
         this.mainView = mainView;
+        this.timeOfFrame = timeOfFrame;
     }
 
     public void run() {
@@ -27,9 +29,9 @@ public class SimulationController {
         if (grid.isEmpty()) {
             fillGridByRandom();
         }
-        Simulator creator = new Simulator(this.epochs, this.grid, this.mainView, SimulationAction.CREATE);
-        Simulator killer = new Simulator(this.epochs, this.grid, this.mainView, SimulationAction.KILL);
-        Simulator shower = new Simulator(this.epochs, this.grid, this.mainView, SimulationAction.SHOW);
+        Simulator creator = new Simulator(this.grid, this.mainView, SimulationAction.CREATE, this.timeOfFrame);
+        Simulator killer = new Simulator(this.grid, this.mainView, SimulationAction.KILL, this.timeOfFrame);
+        Simulator shower = new Simulator(this.grid, this.mainView, SimulationAction.SHOW, this.timeOfFrame);
 
         Thread creatorThread = new Thread(creator);
         Thread killerThread = new Thread(killer);
@@ -60,5 +62,9 @@ public class SimulationController {
                 grid.getCells()[y][x] = new Cell(random.nextBoolean());
             }
         }
+    }
+
+    public Grid getGrid() {
+        return this.grid;
     }
 }

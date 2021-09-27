@@ -6,7 +6,7 @@ public class MainViewConsole implements MainView {
 
 
     @Override
-    public void showNext(Grid grid) {
+    public void updateGrid(Grid grid) {
         for (int x = 0; x < grid.getSizeY(); x++) {
             for (int y = 0; y < grid.getSizeX(); y++) {
                 System.out.print(grid.getCells()[x][y].isAlive() ? "1" : "0");
@@ -14,6 +14,11 @@ public class MainViewConsole implements MainView {
             System.out.println();
         }
         System.out.println("------------------------");
+    }
+
+    @Override
+    public void showNext() {
+
     }
 }
 

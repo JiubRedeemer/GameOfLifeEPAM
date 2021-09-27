@@ -4,5 +4,6 @@ import com.example.gameoflifeepam.model.Grid;
 
 public interface MainView {
 
-    void showNext(Grid grid);
+    void updateGrid(Grid grid);
+    void showNext();
 }

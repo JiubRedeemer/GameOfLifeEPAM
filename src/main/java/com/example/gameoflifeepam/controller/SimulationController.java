@@ -2,33 +2,23 @@ package com.example.gameoflifeepam.controller;
 
 import com.example.gameoflifeepam.model.Cell;
 import com.example.gameoflifeepam.model.Grid;
+import com.example.gameoflifeepam.view.MainView;
+import com.example.gameoflifeepam.view.MainViewConsole;
 
 import java.util.Random;
 
-public class SimulationController implements Runnable {
-    private int maxEpochs, currentEpoch;
+public class SimulationController {
 
-    Grid grid;
-//    Killer killer;
-//    Creator creator;
-//    Viewer viewer;
+    private final Grid grid;
+    private final int epochs;
+    private final MainView mainView;
 
-    Thread killerThread;
-    Thread creatorThread;
-    Thread viewerThread;
-
-    public SimulationController(Grid grid, int epochs) {
+    public SimulationController(Grid grid, int epochs, MainView mainView) {
         this.grid = grid;
-        this.maxEpochs = epochs;
-//        killer = new Killer(grid);
-//        creator = new Creator(grid);
-//        viewer = new Viewer(grid, epochs);
-        killerThread = new Thread(new Killer(this.grid, epochs));
-        creatorThread = new Thread(new Creator(this.grid, epochs));
-        viewerThread = new Thread(new Viewer(this.grid, epochs));
+        this.epochs = epochs;
+        this.mainView = mainView;
     }
 
-    @Override
     public void run() {
         control();
     }
@@ -37,16 +27,30 @@ public class SimulationController implements Runnable {
         if (grid.isEmpty()) {
             fillGridByRandom();
         }
+        Simulator creator = new Simulator(this.epochs, this.grid, this.mainView, SimulationAction.CREATE);
+        Simulator killer = new Simulator(this.epochs, this.grid, this.mainView, SimulationAction.KILL);
+        Simulator shower = new Simulator(this.epochs, this.grid, this.mainView, SimulationAction.SHOW);
 
-        creatorThread.setPriority(9);
-        killerThread.setPriority(8);
-        viewerThread.setPriority(7);
+        Thread creatorThread = new Thread(creator);
+        Thread killerThread = new Thread(killer);
+        Thread showerThread = new Thread(shower);
+        for (int i = 0; i < epochs; i++) {
+            try {
+                Thread a = new Thread(creator);
+                a.start();
+                a.join();
+                Thread b = new Thread(killer);
+                b.start();
+                b.join();
+                Thread c = new Thread(shower);
+                c.start();
+                c.join();
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
 
-        creatorThread.start();
-        killerThread.start();
-        viewerThread.start();
 
-
+        }
     }
 
     public void fillGridByRandom() {

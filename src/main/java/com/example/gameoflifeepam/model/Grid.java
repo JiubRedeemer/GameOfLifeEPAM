@@ -29,7 +29,7 @@ public class Grid {
     }
 
     public boolean isEmpty() {
-        return cells.length > 0;
+        return this.cells[0][0] == null;
     }
 
     public int checkNeighborsOfCell(int x, int y) {
@@ -104,4 +104,5 @@ public class Grid {
 
         return neighbors;
     }
+
 }

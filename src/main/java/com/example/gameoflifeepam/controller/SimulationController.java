@@ -29,28 +29,41 @@ public class SimulationController {
         if (grid.isEmpty()) {
             fillGridByRandom();
         }
-        Simulator creator = new Simulator(this.grid, this.mainView, SimulationAction.CREATE, this.timeOfFrame);
-        Simulator killer = new Simulator(this.grid, this.mainView, SimulationAction.KILL, this.timeOfFrame);
-        Simulator shower = new Simulator(this.grid, this.mainView, SimulationAction.SHOW, this.timeOfFrame);
-
-        Thread creatorThread = new Thread(creator);
-        Thread killerThread = new Thread(killer);
-        Thread showerThread = new Thread(shower);
+//        Simulator creator = new Simulator(this.grid, this.mainView, SimulationAction.CREATE, this.timeOfFrame);
+//        Simulator killer = new Simulator(this.grid, this.mainView, SimulationAction.KILL, this.timeOfFrame);
+//        Simulator shower = new Simulator(this.grid, this.mainView, SimulationAction.SHOW, this.timeOfFrame);
+//
+//        Thread creatorThread = new Thread(creator);
+//        Thread killerThread = new Thread(killer);
+//        Thread showerThread = new Thread(shower);
         for (int i = 0; i < epochs; i++) {
+            Thread show = new Thread(new Simulator(this.grid, new Cell(false), 0, 0, this.mainView, SimulationAction.SHOW, this.timeOfFrame));
+
+            for (int y = 0; y < grid.getSizeY(); y++) {
+                for (int x = 0; x < grid.getSizeX(); x++) {
+                    Thread create = new Thread(new Simulator(this.grid, grid.getCells()[y][x], x, y, this.mainView, SimulationAction.CREATE, this.timeOfFrame));
+                    Thread kill = new Thread(new Simulator(this.grid, grid.getCells()[y][x], x, y, this.mainView, SimulationAction.KILL, this.timeOfFrame));
+                    try {
+                        create.start();
+                        create.join();
+                        kill.start();
+                        kill.join();
+                    } catch (InterruptedException e) {
+                        e.printStackTrace();
+                    } finally {
+                        if (!create.isInterrupted()) create.interrupt();
+                        if (!kill.isInterrupted()) kill.interrupt();
+                    }
+                }
+
+            }
             try {
-                Thread a = new Thread(creator);
-                a.start();
-                a.join();
-                Thread b = new Thread(killer);
-                b.start();
-                b.join();
-                Thread c = new Thread(shower);
-                c.start();
-                c.join();
+                show.start();
+                show.join();
+                if (!show.isInterrupted()) show.interrupt();
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
-
 
         }
     }

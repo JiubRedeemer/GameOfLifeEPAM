@@ -12,6 +12,16 @@ public class Grid {
         this.sizeX = sizeX;
     }
 
+    public Grid(Grid otherGrid) {
+
+        this.sizeY = otherGrid.getSizeY();
+        this.sizeX = otherGrid.getSizeX();
+        cells = new Cell[sizeY][sizeX];
+        for(int i=0; i<this.getCells().length; i++)
+            for(int j=0; j<this.getCells()[i].length; j++)
+                this.getCells()[i][j]=otherGrid.getCells()[i][j].clone();
+    }
+
     public int getSizeY() {
         return sizeY;
     }
@@ -30,6 +40,14 @@ public class Grid {
 
     public boolean isEmpty() {
         return this.cells[0][0] == null;
+    }
+
+    public void cleanGrid() {
+        for (int y = 0; y < sizeY; y++) {
+            for (int x = 0; x < sizeX; x++) {
+                cells[y][x].setAlive(false);
+            }
+        }
     }
 
     public int checkNeighborsOfCell(int x, int y) {
@@ -56,28 +74,6 @@ public class Grid {
                 neighbors++;
             }
         }
-
-//        // Check diagonals of corners
-//        if (x == 0 && y == 0) {
-//            if (cells[y + 1][x + 1].isAlive()) {
-//                neighbors++;
-//            }
-//        }
-//        else if (x == 0 && y == sizeY) {
-//            if (cells[y - 1][x + 1].isAlive()) {
-//                neighbors++;
-//            }
-//        }
-//        else if (x == sizeX && y == sizeY) {
-//            if (cells[y - 1][x - 1].isAlive()) {
-//                neighbors++;
-//            }
-//        }
-//        else if (x == sizeX && y == 0){
-//            if (cells[y + 1][x - 1].isAlive()) {
-//                neighbors++;
-//            }
-//        }
 
         // Check diagonals in zeros
         if (x > 0 && y > 0) {

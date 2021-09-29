@@ -3,14 +3,12 @@ package com.example.gameoflifeepam.controller;
 import com.example.gameoflifeepam.model.Cell;
 import com.example.gameoflifeepam.model.Grid;
 import com.example.gameoflifeepam.view.MainView;
-import com.example.gameoflifeepam.view.MainViewConsole;
 
 import java.util.Random;
 
 public class SimulationController implements Runnable {
     private final Grid grid;
     private Grid pregrid;
-    private int x = 0, y = 0;
     private final int epochs;
     private final MainView mainView;
     private int timeOfFrame;
@@ -18,8 +16,6 @@ public class SimulationController implements Runnable {
     Runnable creator = new Runnable() {
         @Override
         public void run() {
-            System.out.println("creator " + Thread.currentThread().getName());
-            System.out.println("------------------------");
             for (int y = 0; y < grid.getSizeY(); y++) {
                 for (int x = 0; x < grid.getSizeX(); x++) {
                     int neighbors = pregrid.checkNeighborsOfCell(x, y);
@@ -34,7 +30,6 @@ public class SimulationController implements Runnable {
     Runnable killer = new Runnable() {
         @Override
         public void run() {
-            System.out.println("killer " + Thread.currentThread().getName());
             for (int y = 0; y < grid.getSizeY(); y++) {
                 for (int x = 0; x < grid.getSizeX(); x++) {
                     int neighbors = pregrid.checkNeighborsOfCell(x, y);
@@ -50,7 +45,6 @@ public class SimulationController implements Runnable {
     Runnable shower = new Runnable() {
         @Override
         public void run() {
-            System.out.println("shower " + Thread.currentThread().getName());
             mainView.updateGrid(grid);
             mainView.showNext();
         }
@@ -107,8 +101,4 @@ public class SimulationController implements Runnable {
             }
         }
     }
-
-//    public void setPreGrid(Grid preGrid) {
-//        this.preGrid = preGrid;
-//    }
 }

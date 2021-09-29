@@ -1,9 +1,6 @@
 package com.example.gameoflifeepam;
 
-import com.example.gameoflifeepam.controller.SimulationController;
-import com.example.gameoflifeepam.model.Grid;
-import com.example.gameoflifeepam.view.JavaFXview;
-import com.example.gameoflifeepam.view.MainViewConsole;
+import com.example.gameoflifeepam.view.MainViewJavaFX;
 import javafx.application.Application;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
@@ -18,15 +15,12 @@ public class HelloApplication extends Application {
 
 
 
-        JavaFXview javaFXview = new JavaFXview();
-        //SimulationController simulationController = new SimulationController(new Grid(10,10), 1, 1000, javaFXview );
-        FXMLLoader fxmlLoader = new FXMLLoader(HelloApplication.class.getResource("hello-view.fxml"));
-        Scene scene = new Scene(javaFXview, 320, 240);
+        MainViewJavaFX mainViewJavaFX = new MainViewJavaFX();
+        Scene scene = new Scene(mainViewJavaFX, 400, 512);
         stage.setScene(scene);
         stage.show();
 
-        //simulationController.run();
-        javaFXview.showNext();
+        mainViewJavaFX.showNext();
 
 
     }

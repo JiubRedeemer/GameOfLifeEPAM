@@ -25,8 +25,8 @@ public class SimulationController implements Runnable {
                 }
             }
         }
-
     };
+
     Runnable killer = new Runnable() {
         @Override
         public void run() {
@@ -42,11 +42,11 @@ public class SimulationController implements Runnable {
             }
         }
     };
+
     Runnable shower = new Runnable() {
         @Override
         public void run() {
             mainView.updateGrid(grid);
-            mainView.showNext();
         }
     };
 
@@ -72,15 +72,21 @@ public class SimulationController implements Runnable {
         }
 
         for (int i = 0; i < epochs; i++) {
-              if (Thread.currentThread().isInterrupted()) break;
+            if (Thread.currentThread().isInterrupted()) break;
             try {
                 Thread creatorThread = new Thread(creator);
+                creatorThread.setName("CREATOR");
+
                 creatorThread.start();
-                creatorThread.join();
+                // creatorThread.join();
                 Thread killerThread = new Thread(killer);
+                creatorThread.setName("KILLER");
+
                 killerThread.start();
-                killerThread.join();
+                // killerThread.join();
                 Thread showerThread = new Thread(shower);
+                creatorThread.setName("SHOWER");
+
                 showerThread.start();
                 showerThread.join();
                 this.pregrid = new Grid(this.grid);

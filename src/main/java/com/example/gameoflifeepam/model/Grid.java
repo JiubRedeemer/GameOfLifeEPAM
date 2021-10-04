@@ -2,8 +2,9 @@ package com.example.gameoflifeepam.model;
 
 
 public class Grid {
-    private int sizeY;
-    private int sizeX;
+    private final int sizeY;
+    private final int sizeX;
+
     private Cell[][] cells;
 
     public Grid(int sizeX, int sizeY) {
@@ -17,9 +18,9 @@ public class Grid {
         this.sizeY = otherGrid.getSizeY();
         this.sizeX = otherGrid.getSizeX();
         cells = new Cell[sizeY][sizeX];
-        for(int i=0; i<this.getCells().length; i++)
-            for(int j=0; j<this.getCells()[i].length; j++)
-                this.getCells()[i][j]=otherGrid.getCells()[i][j].clone();
+        for (int i = 0; i < this.getCells().length; i++)
+            for (int j = 0; j < this.getCells()[i].length; j++)
+                this.getCells()[i][j] = otherGrid.getCells()[i][j].clone();
     }
 
     public int getSizeY() {
@@ -39,7 +40,14 @@ public class Grid {
     }
 
     public boolean isEmpty() {
-        return this.cells[0][0] == null;
+        for (Cell[] array : cells) {
+            for (Cell val : array) {
+                if (val != null) {
+                    return false;
+                }
+            }
+        }
+        return true;
     }
 
     public void cleanGrid() {

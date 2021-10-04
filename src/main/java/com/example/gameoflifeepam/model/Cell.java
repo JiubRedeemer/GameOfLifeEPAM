@@ -1,6 +1,6 @@
 package com.example.gameoflifeepam.model;
 
-public class Cell implements Cloneable{
+public class Cell implements Cloneable {
 
     private boolean alive;
 

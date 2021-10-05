@@ -5,7 +5,7 @@ public class Grid {
     private final int sizeY;
     private final int sizeX;
 
-    private Cell[][] cells;
+    private final Cell[][] cells;
 
     public Grid(int sizeX, int sizeY) {
         cells = new Cell[sizeY][sizeX];
@@ -34,79 +34,4 @@ public class Grid {
     public Cell[][] getCells() {
         return cells;
     }
-
-    public void setCells(Cell[][] cells) {
-        this.cells = cells;
-    }
-
-    public boolean isEmpty() {
-        for (Cell[] array : cells) {
-            for (Cell val : array) {
-                if (val != null) {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public void cleanGrid() {
-        for (int y = 0; y < sizeY; y++) {
-            for (int x = 0; x < sizeX; x++) {
-                cells[y][x].setAlive(false);
-            }
-        }
-    }
-
-    public int checkNeighborsOfCell(int x, int y) {
-        int neighbors = 0;
-
-        // Check neighbors in forward directions
-        if (y > 0) {
-            if (cells[y - 1][x].isAlive()) {
-                neighbors++;
-            }
-        }
-        if (y < sizeY - 1) {
-            if (cells[y + 1][x].isAlive()) {
-                neighbors++;
-            }
-        }
-        if (x > 0) {
-            if (cells[y][x - 1].isAlive()) {
-                neighbors++;
-            }
-        }
-        if (x < sizeX - 1) {
-            if (cells[y][x + 1].isAlive()) {
-                neighbors++;
-            }
-        }
-
-        // Check diagonals in zeros
-        if (x > 0 && y > 0) {
-            if (cells[y - 1][x - 1].isAlive()) {
-                neighbors++;
-            }
-        }
-        if (x < sizeX - 1 && y < sizeY - 1) {
-            if (cells[y + 1][x + 1].isAlive()) {
-                neighbors++;
-            }
-        }
-        if (x > 0 && y < sizeY - 1) {
-            if (cells[y + 1][x - 1].isAlive()) {
-                neighbors++;
-            }
-        }
-        if (x < sizeX - 1 && y > 0) {
-            if (cells[y - 1][x + 1].isAlive()) {
-                neighbors++;
-            }
-        }
-
-
-        return neighbors;
-    }
-
 }

@@ -2,9 +2,12 @@ package com.example.gameoflifeepam.view;
 
 import com.example.gameoflifeepam.controller.SimulationController;
 import com.example.gameoflifeepam.model.Grid;
+import com.example.gameoflifeepam.model.GridService;
+import com.example.gameoflifeepam.model.GridServiceInterface;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
+import javafx.scene.control.Button;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
@@ -13,10 +16,10 @@ import javafx.scene.transform.NonInvertibleTransformException;
 
 public class MainViewJavaFX extends VBox implements MainView {
 
-    static final int GRID_SIZE_X = 30, GRID_SIZE_Y = 30;
+    public static final int WINDOW_SIZE_X = 700, WINDOW_SIZE_Y = 730;
+    static final int GRID_SIZE_X = 125, GRID_SIZE_Y = 125;
     static final int TIME_OF_FRAME = 1000;
     static final int EPOCHS_ON_START = 10;
-    public static final int WINDOW_SIZE_X = 700, WINDOW_SIZE_Y = 730;
     static final Color BACKGROUND_COLOR = Color.LIGHTGRAY;
     static final Color CELL_COLOR = Color.LIGHTSALMON;
     static final Color LINE_COLOR = Color.GREY;
@@ -27,46 +30,35 @@ public class MainViewJavaFX extends VBox implements MainView {
     private final Canvas canvas;
     private final Toolbar toolbar;
     private final Affine affine;
-
+    private final GridServiceInterface gridService = new GridService();
     private Grid grid;
 
     public MainViewJavaFX() {
+
         this.canvas = new Canvas(WINDOW_SIZE_X, WINDOW_SIZE_Y);
         this.grid = new Grid(GRID_SIZE_X, GRID_SIZE_Y);
         this.toolbar = new Toolbar();
 
-        SimulationController simulationController = new SimulationController(this.grid, 1, 1, this);
-        simulationController.run();
-
-        this.toolbar.clear.setOnAction(actionEvent -> {
-            this.grid.cleanGrid();
-            this.updateGrid(this.grid);
-        });
-
-        this.toolbar.start.setOnAction(actionEvent -> {
-            SimulationController simulationController1 = new SimulationController(this.grid, EPOCHS_ON_START, TIME_OF_FRAME, this);
-            Thread thread = new Thread(simulationController1);
-            thread.start();
-            this.toolbar.start.setText(START_BUTTON_TEXT_RUNNING);
-            this.toolbar.start.setDisable(true);
-            this.toolbar.clear.setDisable(true);
-            if (!thread.isAlive()) {
-                this.toolbar.start.setText(START_BUTTON_TEXT);
-                this.toolbar.start.setDisable(false);
-                this.toolbar.clear.setDisable(false);
-            }
-            this.toolbar.stop.setOnAction(actionEvent1 -> {
-                thread.interrupt();
-                this.toolbar.start.setText(START_BUTTON_TEXT);
-                this.toolbar.start.setDisable(false);
-                this.toolbar.clear.setDisable(false);
-            });
-        });
-        this.canvas.setOnMouseClicked(this::handleDraw);
-        this.getChildren().addAll(this.canvas, toolbar);
         this.affine = new Affine();
         this.affine.appendScale(WINDOW_SIZE_X / (float) GRID_SIZE_X, WINDOW_SIZE_Y / (float) GRID_SIZE_Y);
-        draw();
+
+        this.toolbar.getClear().setOnAction(actionEvent -> clearButtonAction());
+        this.toolbar.getStart().setOnAction(actionEvent -> startButtonAction());
+        this.canvas.setOnMouseClicked(this::handleDraw);
+
+        this.getChildren().addAll(this.canvas, toolbar);
+
+        if (gridService.isEmpty(this.grid)) {
+            gridService.fillByRandom(this.grid);
+        }
+        drawGrid(this.grid);
+    }
+
+    private void makeButtonsState(boolean state, Button... buttons) {
+        for (Button button :
+                buttons) {
+            button.setDisable(state);
+        }
     }
 
     private void handleDraw(MouseEvent mouseEvent) {
@@ -80,7 +72,7 @@ public class MainViewJavaFX extends VBox implements MainView {
 
             grid.getCells()[simY][simX].setAlive(!this.grid.getCells()[simY][simX].isAlive());
 
-            this.updateGrid(this.grid);
+            this.drawGrid(this.grid);
             // TODO: rewrite update algo
 
         } catch (NonInvertibleTransformException e) {
@@ -89,8 +81,33 @@ public class MainViewJavaFX extends VBox implements MainView {
 
     }
 
-    public void draw() {
+    private void clearButtonAction() {
+        gridService.clearGrid(this.grid);
+        this.drawGrid(this.grid);
+    }
 
+    private void startButtonAction() {
+        SimulationController simulator = new SimulationController(this.grid, EPOCHS_ON_START, TIME_OF_FRAME, this);
+        Thread simulatorThread = new Thread(simulator);
+        simulatorThread.start();
+
+        this.toolbar.getStart().setText(START_BUTTON_TEXT_RUNNING);
+        makeButtonsState(true, this.toolbar.getStart(), this.toolbar.getClear());
+
+        if (!simulatorThread.isAlive()) {
+            this.toolbar.getStart().setText(START_BUTTON_TEXT);
+            makeButtonsState(false, this.toolbar.getStart(), this.toolbar.getClear());
+        }
+        this.toolbar.getStop().setOnAction(actionEvent1 -> {
+            simulatorThread.interrupt();
+            this.toolbar.getStart().setText(START_BUTTON_TEXT);
+            makeButtonsState(false, this.toolbar.getStart(), this.toolbar.getClear());
+        });
+    }
+
+    @Override
+    public void drawGrid(Grid grid) {
+        this.grid = grid;
         GraphicsContext g = this.canvas.getGraphicsContext2D();
         g.setTransform(this.affine);
         g.setFill(BACKGROUND_COLOR);
@@ -113,11 +130,4 @@ public class MainViewJavaFX extends VBox implements MainView {
             g.strokeLine(x, 0, x, GRID_SIZE_X);
         }
     }
-
-    @Override
-    public void updateGrid(Grid grid) {
-        this.grid = grid;
-        draw();
-    }
-
 }

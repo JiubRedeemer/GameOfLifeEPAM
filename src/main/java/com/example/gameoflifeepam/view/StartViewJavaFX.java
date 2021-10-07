@@ -20,7 +20,6 @@ public class StartViewJavaFX extends VBox {
 
             int sizeY = Integer.parseInt(startViewToolbar.getSizeGridYField().getText());
 
-
             Stage stage = new Stage();
             MainViewJavaFX mainViewJavaFX = new MainViewJavaFX(epochs, sizeX, sizeY);
             Scene scene = new Scene(mainViewJavaFX, 700, 760);

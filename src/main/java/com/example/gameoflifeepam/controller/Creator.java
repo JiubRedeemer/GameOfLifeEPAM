@@ -35,7 +35,8 @@ public class Creator implements Runnable {
             try {
                 barrier.await();
             } catch (InterruptedException | BrokenBarrierException e) {
-                e.printStackTrace();
+                break;
+
             }
         }
     }

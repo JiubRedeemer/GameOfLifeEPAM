@@ -21,9 +21,8 @@ public class Renderer implements Runnable {
         try {
             Thread.sleep(timeOfFrame);
             mainView.drawGrid(grid);
+        } catch (InterruptedException ignored) {
 
-        } catch (InterruptedException e) {
-            e.printStackTrace();
         }
     }
 }

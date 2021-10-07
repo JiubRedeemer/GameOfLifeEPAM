@@ -9,11 +9,12 @@ public class SimulationController implements Runnable {
 
     private final Thread creatorThread;
     private final Thread killerThread;
+    private CyclicBarrier barrier;
 
     public SimulationController(Grid grid, int epochs, int timeOfFrame, MainView mainView) {
 
         Renderer renderer = new Renderer(grid, mainView, timeOfFrame);
-        CyclicBarrier barrier = new CyclicBarrier(2, renderer);
+        barrier = new CyclicBarrier(2, renderer);
         Creator creator = new Creator(grid, epochs, barrier);
         Killer killer = new Killer(grid, epochs, barrier);
 
@@ -33,5 +34,11 @@ public class SimulationController implements Runnable {
     public void control() throws InterruptedException {
         killerThread.start();
         creatorThread.start();
+    }
+
+    public void stopAll() {
+        killerThread.interrupt();
+        creatorThread.interrupt();
+        Thread.currentThread().interrupt();
     }
 }

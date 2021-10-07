@@ -99,7 +99,7 @@ public class MainViewJavaFX extends VBox implements MainView {
             makeButtonsState(false, this.mainViewToolbar.getStart(), this.mainViewToolbar.getClear());
         }
         this.mainViewToolbar.getStop().setOnAction(actionEvent1 -> {
-            simulatorThread.interrupt();
+            simulator.stopAll();
             this.mainViewToolbar.getStart().setText(START_BUTTON_TEXT);
             makeButtonsState(false, this.mainViewToolbar.getStart(), this.mainViewToolbar.getClear());
         });

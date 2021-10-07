@@ -9,7 +9,6 @@ import java.util.concurrent.CyclicBarrier;
 
 public class SimulationController implements Runnable {
 
-    private final Grid grid;
     private final GridServiceInterface gridService = new GridService();
 
     private final Renderer renderer;
@@ -21,16 +20,11 @@ public class SimulationController implements Runnable {
     private final Thread killerThread;
 
     public SimulationController(Grid grid, int epochs, int timeOfFrame, MainView mainView) {
-        this.grid = grid;
-        Grid prevGrid = this.grid;
-        if (!gridService.isEmpty(this.grid)) {
-            prevGrid = new Grid(grid);
-        }
 
         renderer = new Renderer(grid, mainView, timeOfFrame);
         barrier = new CyclicBarrier(2, renderer);
-        creator = new Creator(grid, prevGrid, epochs, barrier);
-        killer = new Killer(grid, prevGrid, epochs, barrier);
+        creator = new Creator(grid, epochs, barrier);
+        killer = new Killer(grid, epochs, barrier);
 
         creatorThread = new Thread(creator);
         killerThread = new Thread(killer);

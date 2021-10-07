@@ -17,13 +17,13 @@ import javafx.scene.transform.NonInvertibleTransformException;
 public class MainViewJavaFX extends VBox implements MainView {
 
     public static final int WINDOW_SIZE_X = 700, WINDOW_SIZE_Y = 730;
-    static final int GRID_SIZE_X = 125, GRID_SIZE_Y = 125;
+    static final int GRID_SIZE_X = 50, GRID_SIZE_Y = 50;
     static final int TIME_OF_FRAME = 1000;
     static final int EPOCHS_ON_START = 10;
     static final Color BACKGROUND_COLOR = Color.LIGHTGRAY;
     static final Color CELL_COLOR = Color.LIGHTSALMON;
     static final Color LINE_COLOR = Color.GREY;
-    static final float LINE_WIDTH = 0.05f;
+    static final float LINE_WIDTH = 0.001f;
     static final String START_BUTTON_TEXT = "Start";
     static final String START_BUTTON_TEXT_RUNNING = "Running";
 

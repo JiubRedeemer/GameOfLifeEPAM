@@ -13,12 +13,9 @@ public class Killer implements Runnable {
     private final int epochs;
     private final CyclicBarrier barrier;
 
-    private Grid prevGrid;
 
-
-    public Killer(Grid grid, Grid prevGrid, int epochs, CyclicBarrier barrier) {
+    public Killer(Grid grid, int epochs, CyclicBarrier barrier) {
         this.grid = grid;
-        this.prevGrid = prevGrid;
         this.epochs = epochs;
         this.barrier = barrier;
     }
@@ -26,6 +23,7 @@ public class Killer implements Runnable {
     @Override
     public void run() {
         for (int i = 0; i < epochs; i++) {
+            Grid prevGrid = new Grid(grid);
             for (int y = 0; y < grid.getSizeY(); y++) {
                 for (int x = 0; x < grid.getSizeX(); x++) {
                     int neighbors = gridService.checkNeighbors(prevGrid, x, y);
@@ -36,10 +34,6 @@ public class Killer implements Runnable {
                     }
                 }
             }
-            synchronized (prevGrid) {
-                prevGrid = new Grid(grid);
-            }
-
             try {
                 barrier.await();
             } catch (InterruptedException | BrokenBarrierException e) {

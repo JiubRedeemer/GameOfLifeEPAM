@@ -71,9 +71,7 @@ public class MainViewJavaFX extends VBox implements MainView {
             int simY = (int) cellCoordinate.getY();
 
             grid.getCells()[simY][simX].setAlive(!this.grid.getCells()[simY][simX].isAlive());
-
-            this.drawGrid(this.grid);
-            // TODO: rewrite update algo
+            this.drawCell(this.grid, simX, simY);
 
         } catch (NonInvertibleTransformException e) {
             e.printStackTrace();
@@ -129,5 +127,14 @@ public class MainViewJavaFX extends VBox implements MainView {
         for (int x = 0; x < this.grid.getSizeX(); x++) {
             g.strokeLine(x, 0, x, GRID_SIZE_X);
         }
+    }
+
+    @Override
+    public void drawCell(Grid grid, int x, int y){
+        this.grid = grid;
+        GraphicsContext g = this.canvas.getGraphicsContext2D();
+        g.setTransform(this.affine);
+        g.setFill(grid.getCells()[y][x].isAlive() ? CELL_COLOR : BACKGROUND_COLOR);
+        g.fillRect(x,y,1,1);
     }
 }

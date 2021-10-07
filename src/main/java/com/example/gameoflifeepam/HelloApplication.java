@@ -14,7 +14,7 @@ public class HelloApplication extends Application {
     @Override
     public void start(Stage stage) {
         StartViewJavaFX startViewJavaFX = new StartViewJavaFX();
-        Scene scene = new Scene(startViewJavaFX, 650, 35);
+        Scene scene = new Scene(startViewJavaFX, 900, 35);
         stage.setResizable(false);
         stage.setScene(scene);
         stage.show();

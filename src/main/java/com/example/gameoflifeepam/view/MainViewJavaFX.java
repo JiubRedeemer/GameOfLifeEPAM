@@ -17,11 +17,9 @@ import javafx.scene.transform.NonInvertibleTransformException;
 public class MainViewJavaFX extends VBox implements MainView {
 
     public static final int WINDOW_SIZE_X = 700, WINDOW_SIZE_Y = 730;
-    static final int TIME_OF_FRAME = 1000;
-    static final int EPOCHS_ON_START = 10;
     static final Color BACKGROUND_COLOR = Color.LIGHTGRAY;
     static final Color CELL_COLOR = Color.LIGHTSALMON;
-    static final Color LINE_COLOR = Color.GREY;
+    static final Color LINE_COLOR = Color.BLACK;
     static final float LINE_WIDTH = 0.01f;
     static final String START_BUTTON_TEXT = "Start";
     static final String START_BUTTON_TEXT_RUNNING = "Running";
@@ -30,12 +28,16 @@ public class MainViewJavaFX extends VBox implements MainView {
     private final MainViewToolbar mainViewToolbar;
     private final Affine affine;
     private final GridServiceInterface gridService = new GridService();
-    private final int gridSizeX, gridSizeY, epochs;
+    private final int timeOfFrame;
+    private final int gridSizeX;
+    private final int gridSizeY;
+    private final int epochs;
 
     private Grid grid;
 
-    public MainViewJavaFX(int epochs, int sizeX, int sizeY) {
+    public MainViewJavaFX(int epochs, int timeOfFrame, int sizeX, int sizeY) {
         this.epochs = epochs;
+        this.timeOfFrame = timeOfFrame;
         this.gridSizeX = sizeX;
         this.gridSizeY = sizeY;
         this.canvas = new Canvas(WINDOW_SIZE_X, WINDOW_SIZE_Y);
@@ -87,7 +89,7 @@ public class MainViewJavaFX extends VBox implements MainView {
     }
 
     private void startButtonAction() {
-        SimulationController simulator = new SimulationController(this.grid, epochs, TIME_OF_FRAME, this);
+        SimulationController simulator = new SimulationController(this.grid, epochs, timeOfFrame, this);
         Thread simulatorThread = new Thread(simulator);
         simulatorThread.start();
 

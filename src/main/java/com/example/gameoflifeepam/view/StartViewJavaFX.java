@@ -19,9 +19,10 @@ public class StartViewJavaFX extends VBox {
             int sizeX = Integer.parseInt(startViewToolbar.getSizeGridXField().getText());
 
             int sizeY = Integer.parseInt(startViewToolbar.getSizeGridYField().getText());
+            int timeOfFrame = Integer.parseInt(startViewToolbar.getTimeOfFrameField().getText());
 
             Stage stage = new Stage();
-            MainViewJavaFX mainViewJavaFX = new MainViewJavaFX(epochs, sizeX, sizeY);
+            MainViewJavaFX mainViewJavaFX = new MainViewJavaFX(epochs,timeOfFrame, sizeX, sizeY);
             Scene scene = new Scene(mainViewJavaFX, 700, 760);
             stage.setResizable(false);
             stage.setScene(scene);

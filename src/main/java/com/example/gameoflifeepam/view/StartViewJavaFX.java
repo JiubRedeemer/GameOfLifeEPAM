@@ -29,7 +29,6 @@ public class StartViewJavaFX extends VBox {
             stage.show();
         } catch (NumberFormatException ex) {
             startViewToolbar.getErrorLabel().setText("Error");
-            ex.getStackTrace();
         }
 
     }

@@ -37,7 +37,16 @@ public class StartViewToolbar extends ToolBar{
         sizeGridYLabel = new Label(SIZE_GRID_Y_FIELD_TEXT);
         errorLabel = new Label();
 
-        this.getItems().addAll(epochsLabel, epochsField, sizeGridXLabel, sizeGridXField, sizeGridYLabel, sizeGridYField,timeOfFrameLabel,timeOfFrameField,errorLabel, setParamsButton);
+        this.getItems().addAll(epochsLabel,
+                epochsField,
+                sizeGridXLabel,
+                sizeGridXField,
+                sizeGridYLabel,
+                sizeGridYField,
+                timeOfFrameLabel,
+                timeOfFrameField,
+                errorLabel,
+                setParamsButton);
     }
 
     public Button getSetParamsButton() {

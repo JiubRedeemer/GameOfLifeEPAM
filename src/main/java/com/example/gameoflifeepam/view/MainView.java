@@ -8,4 +8,6 @@ public interface MainView {
 
     void drawCell(Grid grid, int x, int y);
 
+    void updateGridFromSim(Grid grid);
+
 }

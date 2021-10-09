@@ -1,25 +1,29 @@
 package com.example.gameoflifeepam.controller;
 
 import com.example.gameoflifeepam.model.Grid;
+import com.example.gameoflifeepam.model.History;
+import com.example.gameoflifeepam.model.HistoryInterface;
 import com.example.gameoflifeepam.view.MainView;
 
 import java.util.concurrent.CyclicBarrier;
 
-public class SimulationController implements Runnable {
+public class SimulationController {
 
     private final Thread creatorThread;
     private final Thread killerThread;
-    private CyclicBarrier barrier;
+
+    private final History history = new History();
 
     public SimulationController(Grid grid, int epochs, int timeOfFrame, MainView mainView) {
 
-        Renderer renderer = new Renderer(grid, mainView, timeOfFrame);
-        barrier = new CyclicBarrier(2, renderer);
+        Renderer renderer = new Renderer(grid, mainView, timeOfFrame, history);
+        CyclicBarrier barrier = new CyclicBarrier(2, renderer);
         Creator creator = new Creator(grid, epochs, barrier);
         Killer killer = new Killer(grid, epochs, barrier);
 
         creatorThread = new Thread(creator);
         killerThread = new Thread(killer);
+
 
     }
 
@@ -39,6 +43,9 @@ public class SimulationController implements Runnable {
     public void stopAll() {
         killerThread.interrupt();
         creatorThread.interrupt();
-        Thread.currentThread().interrupt();
+    }
+
+    public History getHistory() {
+        return history;
     }
 }

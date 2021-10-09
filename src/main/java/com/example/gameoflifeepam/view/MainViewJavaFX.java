@@ -1,9 +1,7 @@
 package com.example.gameoflifeepam.view;
 
 import com.example.gameoflifeepam.controller.SimulationController;
-import com.example.gameoflifeepam.model.Grid;
-import com.example.gameoflifeepam.model.GridService;
-import com.example.gameoflifeepam.model.GridServiceInterface;
+import com.example.gameoflifeepam.model.*;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
 import javafx.scene.canvas.GraphicsContext;
@@ -33,7 +31,11 @@ public class MainViewJavaFX extends VBox implements MainView {
     private final int gridSizeY;
     private final int epochs;
 
+    private SimulationStatus simulationStatus;
     private Grid grid;
+    private SimulationController simulator;
+    private HistoryInterface history;
+    private int currentStepInHistory = 0;
 
     public MainViewJavaFX(int epochs, int timeOfFrame, int sizeX, int sizeY) {
         this.epochs = epochs;
@@ -49,6 +51,9 @@ public class MainViewJavaFX extends VBox implements MainView {
 
         this.mainViewToolbar.getClear().setOnAction(actionEvent -> clearButtonAction());
         this.mainViewToolbar.getStart().setOnAction(actionEvent -> startButtonAction());
+        this.mainViewToolbar.getStepForward().setOnAction(actionEvent -> forwardAction());
+        this.mainViewToolbar.getStepBack().setOnAction(actionEvent -> backAction());
+
         this.canvas.setOnMouseClicked(this::handleDraw);
 
         this.getChildren().addAll(this.canvas, mainViewToolbar);
@@ -58,6 +63,21 @@ public class MainViewJavaFX extends VBox implements MainView {
         }
         drawGrid(this.grid);
     }
+
+    private void backAction() {
+        decrementStep();
+        history = simulator.getHistory();
+        this.grid = history.getHistory().get(currentStepInHistory);
+        drawGrid(this.grid);
+    }
+
+    private void forwardAction() {
+        incrementStep();
+        history = simulator.getHistory();
+        this.grid = history.getHistory().get(currentStepInHistory);
+        drawGrid(this.grid);
+    }
+
 
     private void makeButtonsState(boolean state, Button... buttons) {
         for (Button button :
@@ -89,23 +109,46 @@ public class MainViewJavaFX extends VBox implements MainView {
     }
 
     private void startButtonAction() {
-        SimulationController simulator = new SimulationController(this.grid, epochs, timeOfFrame, this);
-        Thread simulatorThread = new Thread(simulator);
-        simulatorThread.start();
-
+        startSimulation(this.epochs);
         this.mainViewToolbar.getStart().setText(START_BUTTON_TEXT_RUNNING);
         makeButtonsState(true, this.mainViewToolbar.getStart(), this.mainViewToolbar.getClear());
 
-        if (!simulatorThread.isAlive()) {
+        if (simulationStatus == SimulationStatus.STARTED) {
             this.mainViewToolbar.getStart().setText(START_BUTTON_TEXT);
             makeButtonsState(false, this.mainViewToolbar.getStart(), this.mainViewToolbar.getClear());
         }
-        this.mainViewToolbar.getStop().setOnAction(actionEvent1 -> {
-            simulator.stopAll();
-            this.mainViewToolbar.getStart().setText(START_BUTTON_TEXT);
-            makeButtonsState(false, this.mainViewToolbar.getStart(), this.mainViewToolbar.getClear());
-        });
+        this.mainViewToolbar.getStop().setOnAction(actionEvent1 -> stopButtonAction());
     }
+
+
+    private void startSimulation(int epochs) {
+        simulator = new SimulationController(this.grid, epochs, timeOfFrame, this);
+        simulator.run();
+    }
+
+    private void stopButtonAction() {
+        simulator.stopAll();
+        this.mainViewToolbar.getStart().setText(START_BUTTON_TEXT);
+        simulationStatus = SimulationStatus.STOPPED;
+        makeButtonsState(false, this.mainViewToolbar.getStart(), this.mainViewToolbar.getClear());
+    }
+
+    private void incrementStep() {
+        if (this.currentStepInHistory < History.CAPACITY - 1) {
+            currentStepInHistory++;
+        } else {
+            this.currentStepInHistory = History.CAPACITY - 1;
+        }
+    }
+
+    private void decrementStep() {
+        if (this.currentStepInHistory > 0) {
+            this.currentStepInHistory--;
+        } else {
+            this.currentStepInHistory = 0;
+        }
+    }
+
 
     @Override
     public void drawGrid(Grid grid) {
@@ -131,6 +174,12 @@ public class MainViewJavaFX extends VBox implements MainView {
         for (int x = 0; x < this.grid.getSizeX(); x++) {
             g.strokeLine(x, 0, x, gridSizeX);
         }
+    }
+
+    @Override
+    public void updateGridFromSim(Grid grid) {
+        incrementStep();
+        drawGrid(grid);
     }
 
     @Override

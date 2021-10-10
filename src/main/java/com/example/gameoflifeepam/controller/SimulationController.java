@@ -12,11 +12,11 @@ public class SimulationController {
     private final Thread creatorThread;
     private final Thread killerThread;
 
-    private final History history = new History();
+    //private final History history = new History();
 
     public SimulationController(Grid grid, int epochs, int timeOfFrame, MainView mainView) {
 
-        Renderer renderer = new Renderer(grid, mainView, timeOfFrame, history);
+        Renderer renderer = new Renderer(grid, mainView, timeOfFrame);
         CyclicBarrier barrier = new CyclicBarrier(2, renderer);
         Creator creator = new Creator(grid, epochs, barrier);
         Killer killer = new Killer(grid, epochs, barrier);
@@ -45,7 +45,7 @@ public class SimulationController {
         creatorThread.interrupt();
     }
 
-    public History getHistory() {
-        return history;
-    }
+ //   public History getHistory() {
+  //      return history;
+  //  }
 }

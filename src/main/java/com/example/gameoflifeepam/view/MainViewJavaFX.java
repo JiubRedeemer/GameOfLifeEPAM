@@ -36,8 +36,10 @@ public class MainViewJavaFX extends VBox implements MainView {
     private SimulationController simulator;
     private HistoryInterface history;
     private int currentStepInHistory = 0;
+    private int maxCurrentStepInHistory = 0;
 
     public MainViewJavaFX(int epochs, int timeOfFrame, int sizeX, int sizeY) {
+        this.history = new History();
         this.epochs = epochs;
         this.timeOfFrame = timeOfFrame;
         this.gridSizeX = sizeX;
@@ -66,16 +68,16 @@ public class MainViewJavaFX extends VBox implements MainView {
 
     private void backAction() {
         decrementStep();
-        history = simulator.getHistory();
-        this.grid = history.getHistory().get(currentStepInHistory);
+        this.grid = this.history.getHistory().get(currentStepInHistory);
         drawGrid(this.grid);
+        System.out.println(currentStepInHistory + " " + maxCurrentStepInHistory);
     }
 
     private void forwardAction() {
         incrementStep();
-        history = simulator.getHistory();
-        this.grid = history.getHistory().get(currentStepInHistory);
+        this.grid = this.history.getHistory().get(currentStepInHistory);
         drawGrid(this.grid);
+        System.out.println(currentStepInHistory + " " + maxCurrentStepInHistory);
     }
 
 
@@ -133,11 +135,22 @@ public class MainViewJavaFX extends VBox implements MainView {
         makeButtonsState(false, this.mainViewToolbar.getStart(), this.mainViewToolbar.getClear());
     }
 
-    private void incrementStep() {
-        if (this.currentStepInHistory < History.CAPACITY - 1) {
-            currentStepInHistory++;
+
+    private void addStep() {
+        if (this.maxCurrentStepInHistory < History.CAPACITY - 1) {
+            this.maxCurrentStepInHistory++;
+            this.currentStepInHistory++;
         } else {
+            this.maxCurrentStepInHistory = History.CAPACITY - 1;
             this.currentStepInHistory = History.CAPACITY - 1;
+        }
+    }
+
+    private void incrementStep() {
+        if (this.currentStepInHistory < this.maxCurrentStepInHistory - 1) {
+            this.currentStepInHistory++;
+        } else {
+            this.currentStepInHistory = maxCurrentStepInHistory - 1;
         }
     }
 
@@ -178,7 +191,9 @@ public class MainViewJavaFX extends VBox implements MainView {
 
     @Override
     public void updateGridFromSim(Grid grid) {
-        incrementStep();
+        addStep();
+        history.add(this.grid, this.currentStepInHistory);
+
         drawGrid(grid);
     }
 

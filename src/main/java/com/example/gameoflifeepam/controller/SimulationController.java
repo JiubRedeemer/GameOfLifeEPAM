@@ -19,7 +19,7 @@ public class SimulationController {
         Renderer renderer = new Renderer(grid, mainView, timeOfFrame);
         CyclicBarrier barrier = new CyclicBarrier(2, renderer);
         Creator creator = new Creator(grid, epochs, barrier);
-        Killer killer = new Killer(grid, epochs, barrier);
+        Killer killer = new Killer(grid, epochs, barrier, mainView);
 
         creatorThread = new Thread(creator);
         killerThread = new Thread(killer);

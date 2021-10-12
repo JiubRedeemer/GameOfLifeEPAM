@@ -10,4 +10,6 @@ public interface MainView {
 
     void updateGridFromSim(Grid grid);
 
+    void endingOfSimulation();
+
 }

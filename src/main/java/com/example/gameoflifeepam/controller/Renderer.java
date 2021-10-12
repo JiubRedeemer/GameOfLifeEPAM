@@ -25,7 +25,6 @@ public class Renderer implements Runnable {
             mainView.updateGridFromSim(grid);
             Thread.sleep(timeOfFrame);
         } catch (InterruptedException ignored) {
-
         }
     }
 }

@@ -147,10 +147,10 @@ public class MainViewJavaFX extends VBox implements MainView {
     }
 
     private void incrementStep() {
-        if (this.currentStepInHistory < this.maxCurrentStepInHistory - 1) {
+        if (this.currentStepInHistory < this.maxCurrentStepInHistory) {
             this.currentStepInHistory++;
         } else {
-            this.currentStepInHistory = maxCurrentStepInHistory - 1;
+            this.currentStepInHistory = maxCurrentStepInHistory;
         }
     }
 
@@ -195,6 +195,11 @@ public class MainViewJavaFX extends VBox implements MainView {
         history.add(this.grid, this.currentStepInHistory);
 
         drawGrid(grid);
+    }
+
+    @Override
+    public void endingOfSimulation() {
+        stopButtonAction();
     }
 
     @Override

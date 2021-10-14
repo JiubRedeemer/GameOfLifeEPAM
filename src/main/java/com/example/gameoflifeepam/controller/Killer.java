@@ -1,8 +1,8 @@
 package com.example.gameoflifeepam.controller;
 
 import com.example.gameoflifeepam.model.Grid;
+import com.example.gameoflifeepam.model.GridServiceImpl;
 import com.example.gameoflifeepam.model.GridService;
-import com.example.gameoflifeepam.model.GridServiceInterface;
 import com.example.gameoflifeepam.view.MainView;
 
 import java.util.concurrent.BrokenBarrierException;
@@ -10,7 +10,7 @@ import java.util.concurrent.CyclicBarrier;
 
 public class Killer implements Runnable {
     private final Grid grid;
-    private final GridServiceInterface gridService = new GridService();
+    private final GridService gridService = new GridServiceImpl();
     private final int epochs;
     private final CyclicBarrier barrier;
     private final MainView mainView;

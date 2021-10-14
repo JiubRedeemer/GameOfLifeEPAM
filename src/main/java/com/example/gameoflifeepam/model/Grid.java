@@ -2,9 +2,9 @@ package com.example.gameoflifeepam.model;
 
 
 public class Grid {
+
     private final int sizeY;
     private final int sizeX;
-
     private final Cell[][] cells;
 
     public Grid(int sizeX, int sizeY) {

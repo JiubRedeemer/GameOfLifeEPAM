@@ -1,25 +1,10 @@
 package com.example.gameoflifeepam.model;
 
-import java.util.ArrayList;
+import java.util.List;
 
-public class History implements HistoryInterface {
-    public final static int CAPACITY = 5;
+public interface History {
 
-    private final ArrayList<Grid> history = new ArrayList<Grid>(CAPACITY);
+    public void add(Grid grid, int index);
 
-    @Override
-    public void add(Grid grid, int index) {
-        if (history.size() >= CAPACITY) {
-            history.remove(0);
-        }
-        try {
-            history.add(index, new Grid(grid));
-        } catch (IndexOutOfBoundsException e) {
-            history.add(new Grid(grid));
-        }
-    }
-
-    public ArrayList<Grid> getHistory() {
-        return history;
-    }
+    public List<Grid> getHistory();
 }

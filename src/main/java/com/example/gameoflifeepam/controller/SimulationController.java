@@ -5,7 +5,7 @@ import com.example.gameoflifeepam.view.MainView;
 
 import java.util.concurrent.CyclicBarrier;
 
-public class SimulationController {
+public class SimulationController implements Simulator{
 
     private final Thread creatorThread;
     private final Thread killerThread;
@@ -32,7 +32,7 @@ public class SimulationController {
         creatorThread.start();
     }
 
-    public void stopAll() {
+    public void stop() {
         killerThread.interrupt();
         creatorThread.interrupt();
     }

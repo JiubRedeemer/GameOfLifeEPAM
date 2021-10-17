@@ -1,6 +1,7 @@
 package com.example.gameoflifeepam.view;
 
 import com.example.gameoflifeepam.controller.SimulationController;
+import com.example.gameoflifeepam.controller.Simulator;
 import com.example.gameoflifeepam.model.*;
 import javafx.geometry.Point2D;
 import javafx.scene.canvas.Canvas;
@@ -32,9 +33,8 @@ public class MainViewJavaFX extends VBox implements MainView {
     private final int epochs;
     private final History history;
 
-    private SimulationStatus simulationStatus;
     private Grid grid;
-    private SimulationController simulator;
+    private Simulator simulator;
     private int currentStepInHistory = 0;
     private int maxCurrentStepInHistory = 0;
 
@@ -80,7 +80,7 @@ public class MainViewJavaFX extends VBox implements MainView {
         System.out.println(currentStepInHistory + " " + maxCurrentStepInHistory);
     }
 
-    private void makeButtonsState(boolean state, Button... buttons) {
+    private void makeButtonsDisableState(boolean state, Button... buttons) {
         for (Button button :
                 buttons) {
             button.setDisable(state);
@@ -112,12 +112,10 @@ public class MainViewJavaFX extends VBox implements MainView {
     private void startButtonAction() {
         startSimulation(epochs);
         mainViewToolbar.getStart().setText(START_BUTTON_TEXT_RUNNING);
-        makeButtonsState(true, mainViewToolbar.getStart(), mainViewToolbar.getClear());
+        makeButtonsDisableState(true, mainViewToolbar.getStart(), mainViewToolbar.getClear());
 
-        if (simulationStatus == SimulationStatus.STARTED) {
-            mainViewToolbar.getStart().setText(START_BUTTON_TEXT);
-            makeButtonsState(false, mainViewToolbar.getStart(), mainViewToolbar.getClear());
-        }
+
+
         mainViewToolbar.getStop().setOnAction(actionEvent1 -> stopButtonAction());
     }
 
@@ -127,10 +125,9 @@ public class MainViewJavaFX extends VBox implements MainView {
     }
 
     private void stopButtonAction() {
-        simulator.stopAll();
+        simulator.stop();
+        makeButtonsDisableState(false, mainViewToolbar.getStart(), mainViewToolbar.getClear());
         mainViewToolbar.getStart().setText(START_BUTTON_TEXT);
-        simulationStatus = SimulationStatus.STOPPED;
-        makeButtonsState(false, mainViewToolbar.getStart(), mainViewToolbar.getClear());
     }
 
     private void addStep() {

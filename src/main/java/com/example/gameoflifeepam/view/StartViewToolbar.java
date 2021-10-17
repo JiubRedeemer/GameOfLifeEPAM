@@ -14,16 +14,16 @@ public class StartViewToolbar extends ToolBar{
     static final String TIME_OF_FRAME_FIELD_TEXT = "Time of frame";
 
 
-    private  Button setParamsButton;
-    private  TextField epochsField;
-    private  TextField sizeGridXField;
-    private  TextField sizeGridYField;
-    private  TextField timeOfFrameField;
-    private  Label epochsLabel;
-    private  Label sizeGridXLabel;
-    private  Label sizeGridYLabel;
-    private  Label timeOfFrameLabel;
-    private  Label errorLabel;
+    private final Button setParamsButton;
+    private final TextField epochsField;
+    private final TextField sizeGridXField;
+    private final TextField sizeGridYField;
+    private final TextField timeOfFrameField;
+    private final Label epochsLabel;
+    private final Label sizeGridXLabel;
+    private final Label sizeGridYLabel;
+    private final Label timeOfFrameLabel;
+    private final Label errorLabel;
 
     public StartViewToolbar() {
         setParamsButton = new Button(SET_PARAMS_BUTTON_TEXT);

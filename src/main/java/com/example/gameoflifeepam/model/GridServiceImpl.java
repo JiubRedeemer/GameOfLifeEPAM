@@ -64,7 +64,7 @@ public class GridServiceImpl implements GridService {
     }
 
     @Override
-    public void clearGrid(Grid grid) {
+    public void killAllInGrid(Grid grid) {
         Cell[][] cells = grid.getCells();
         int sizeX = grid.getSizeX();
         int sizeY = grid.getSizeY();

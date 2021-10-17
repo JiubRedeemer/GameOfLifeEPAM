@@ -4,7 +4,7 @@ import java.util.List;
 
 public interface History {
 
-    public void add(Grid grid, int index);
+    void add(Grid grid, int index);
 
-    public List<Grid> getHistory();
+    List<Grid> getHistory();
 }

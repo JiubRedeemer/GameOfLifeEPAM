@@ -105,7 +105,7 @@ public class MainViewJavaFX extends VBox implements MainView {
     }
 
     private void clearButtonAction() {
-        gridService.clearGrid(grid);
+        gridService.killAllInGrid(grid);
         drawGrid(grid);
     }
 

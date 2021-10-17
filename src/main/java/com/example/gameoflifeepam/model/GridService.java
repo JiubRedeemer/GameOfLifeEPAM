@@ -7,5 +7,5 @@ public interface GridService {
 
     boolean isEmpty(Grid grid); // Check grid for empty state
 
-    void clearGrid(Grid grid); // Make all cells in grid dead
+    void killAllInGrid(Grid grid); // Make all cells in grid dead
 }

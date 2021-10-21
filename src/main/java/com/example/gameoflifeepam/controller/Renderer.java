@@ -10,7 +10,6 @@ public class Renderer implements Runnable {
     private final MainView mainView;
     private final int timeOfFrame;
 
-
     public Renderer(Grid grid, MainView mainView, int timeOfFrame) {
         this.grid = grid;
         this.mainView = mainView;

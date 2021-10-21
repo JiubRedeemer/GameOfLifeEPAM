@@ -55,7 +55,6 @@ public class MainViewJavaFX extends VBox implements MainView {
         this.mainViewToolbar.getStart().setOnAction(actionEvent -> startButtonAction());
         this.mainViewToolbar.getStepForward().setOnAction(actionEvent -> forwardAction());
         this.mainViewToolbar.getStepBack().setOnAction(actionEvent -> backAction());
-
         this.canvas.setOnMouseClicked(this::handleDraw);
 
         this.getChildren().addAll(this.canvas, mainViewToolbar);
@@ -113,9 +112,6 @@ public class MainViewJavaFX extends VBox implements MainView {
         startSimulation(epochs);
         mainViewToolbar.getStart().setText(START_BUTTON_TEXT_RUNNING);
         makeButtonsDisableState(true, mainViewToolbar.getStart(), mainViewToolbar.getClear());
-
-
-
         mainViewToolbar.getStop().setOnAction(actionEvent1 -> stopButtonAction());
     }
 

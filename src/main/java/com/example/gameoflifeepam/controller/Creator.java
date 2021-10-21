@@ -1,8 +1,8 @@
 package com.example.gameoflifeepam.controller;
 
 import com.example.gameoflifeepam.model.Grid;
-import com.example.gameoflifeepam.model.GridServiceImpl;
 import com.example.gameoflifeepam.model.GridService;
+import com.example.gameoflifeepam.model.GridServiceImpl;
 
 import java.util.concurrent.BrokenBarrierException;
 import java.util.concurrent.CyclicBarrier;
@@ -35,6 +35,7 @@ public class Creator implements Runnable {
             try {
                 barrier.await();
             } catch (InterruptedException | BrokenBarrierException e) {
+                System.out.println("Break creator cycle");
                 break;
             }
         }

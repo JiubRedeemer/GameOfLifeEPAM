@@ -4,7 +4,7 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GridServiceImplTest {
+public class GridServiceImplTest {
 
     public static final int GRID_SIZE_X = 20;
     public static final int GRID_SIZE_Y = 20;
@@ -20,7 +20,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testCheckNeighbors_shouldBe8() {
+    public void testCheckNeighbors_shouldBe8() {
         int expectedNeighbours = 8;
         int checkedXCoordinate = 1, checkedYCoordinate = 1;
 
@@ -31,7 +31,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testCheckNeighbors_shouldBe0() {
+    public void testCheckNeighbors_shouldBe0() {
         int expectedNeighbours = 0;
         int checkedXCoordinate = 1, checkedYCoordinate = 1;
 
@@ -42,7 +42,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testCheckNeighbors_topLeftCornerShouldBe3() {
+    public void testCheckNeighbors_topLeftCornerShouldBe3() {
         int expectedNeighbours = 3;
         int checkedXCoordinate = 0, checkedYCoordinate = 0;
 
@@ -53,7 +53,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testCheckNeighbors_topRightCornerShouldBe3() {
+    public void testCheckNeighbors_topRightCornerShouldBe3() {
         int expectedNeighbours = 3;
         int checkedXCoordinate = 19, checkedYCoordinate = 0;
 
@@ -64,7 +64,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testCheckNeighbors_downLeftCornerShouldBe3() {
+    public void testCheckNeighbors_downLeftCornerShouldBe3() {
         int expectedNeighbours = 3;
         int checkedXCoordinate = 0, checkedYCoordinate = 19;
 
@@ -75,7 +75,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testCheckNeighbors_downRightCornerShouldBe3() {
+    public void testCheckNeighbors_downRightCornerShouldBe3() {
         int expectedNeighbours = 3;
         int checkedXCoordinate = 19, checkedYCoordinate = 19;
 
@@ -86,7 +86,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testFillByRandom_gridShouldBeNotEmpty() {
+    public void testFillByRandom_gridShouldBeNotEmpty() {
         Grid grid = new Grid(10, 10);
         GridServiceImpl gridService = new GridServiceImpl();
         gridService.fillByRandom(grid);
@@ -95,7 +95,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testIsEmpty_shouldBeNotEmptyWhenOneCellIsNotNull() {
+    public void testIsEmpty_shouldBeNotEmptyWhenOneCellIsNotNull() {
         Grid grid = new Grid(10, 10);
         grid.getCells()[2][4] = new Cell(true);
         GridServiceImpl gridService = new GridServiceImpl();
@@ -104,7 +104,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testIsEmpty_shouldBeEmpty() {
+    public void testIsEmpty_shouldBeEmpty() {
         Grid grid = new Grid(10, 10);
         GridServiceImpl gridService = new GridServiceImpl();
 
@@ -112,7 +112,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testIsEmpty_shouldBeNotEmptyWhenAllCellsAreNotNullAndAlive() {
+    public void testIsEmpty_shouldBeNotEmptyWhenAllCellsAreNotNullAndAlive() {
         Grid grid = new Grid(10, 10);
         GridServiceImpl gridService = new GridServiceImpl();
         for (int y = 0; y < grid.getSizeY(); y++) {
@@ -125,7 +125,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testIsEmpty_shouldBeNotEmptyWhenAllCellsAreNotNullAndDie() {
+    public void testIsEmpty_shouldBeNotEmptyWhenAllCellsAreNotNullAndDie() {
         Grid grid = new Grid(10, 10);
         GridServiceImpl gridService = new GridServiceImpl();
         for (int y = 0; y < grid.getSizeY(); y++) {
@@ -138,7 +138,7 @@ class GridServiceImplTest {
     }
 
     @Test
-    void testKillAllinGrid_shouldBeAllDie() {
+    public void testKillAllinGrid_shouldBeAllDie() {
         Grid grid = new Grid(10, 10);
         GridServiceImpl gridService = new GridServiceImpl();
 

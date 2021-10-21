@@ -4,15 +4,15 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class HistoryImplTest {
+public class HistoryImplTest {
     @Test
-    void testNew_shouldBeEmpty() {
+    public void testNew_shouldBeEmpty() {
         HistoryImpl history = new HistoryImpl();
         assertTrue(history.getHistory().isEmpty());
     }
 
     @Test
-    void testAdd_whenHistoryIsEmpty() {
+    public void testAdd_whenHistoryIsEmpty() {
         HistoryImpl history = new HistoryImpl();
         GridServiceImpl gridService = new GridServiceImpl();
         Grid grid = new Grid(10, 10);
@@ -23,7 +23,7 @@ class HistoryImplTest {
     }
 
     @Test
-    void testAdd_whenHistoryIsFull() {
+    public void testAdd_whenHistoryIsFull() {
         HistoryImpl history = new HistoryImpl();
         GridServiceImpl gridService = new GridServiceImpl();
 

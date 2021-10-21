@@ -4,16 +4,16 @@ import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
 
-class GridTest {
+public class GridTest {
 
     @Test
-    void testGetSizeY() {
+    public void testGetSizeY() {
         Grid grid= new Grid(10,20);
         assertEquals(10, grid.getSizeX());
     }
 
     @Test
-    void testGetSizeX() {
+    public void testGetSizeX() {
         Grid grid= new Grid(10,20);
         assertEquals(20, grid.getSizeY());
     }
